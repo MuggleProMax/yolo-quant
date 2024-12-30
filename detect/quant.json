@@ -1,0 +1,37 @@
+{
+    "model_parameters": {
+        "onnx_model": "yolo11n.onnx",
+        "output_prefix": "yolo11n-quant",
+        "working_dir": "./quant_output",
+        "skip_onnxsim": false
+    },
+    "calibration_parameters": {
+        "calibration_step": 100,
+        "calibration_device": "cpu",
+        "calibration_type": "default",
+        "input_parametres": [
+            {
+                "input_shape": [1, 3, 640, 640],
+                "dtype": "float32",
+                "file_type": "img",
+                "color_format": "rgb",
+                "mean_value": [0.485, 0.456, 0.406],
+                "std_value": [0.229, 0.224, 0.225],
+                "preprocess_file": "preprocess.py:preprocess_impl",
+                "data_list_path": "./img_list.txt"
+            }
+        ]
+    },
+    "quantization_parameters": {
+        "analysis_enable": true,
+        "precision_level": 0,
+        "finetune level": 1,
+        "max_percentile": 0.9999,
+        "custom_setting": {
+            "input_names": ["images"],
+            "output_names": ["output0"],
+            "precision_level": 2
+        },
+        "truncate_var_names": ["/model.23/Concat_3_output_0"]
+    }
+}
